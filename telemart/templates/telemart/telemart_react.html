@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Telemart React</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="text/babel">
+
+      class ProductCard extends React.Component {
+        render () {
+          return (
+            <div className="col-4 text-center my-3">
+              <img src={this.props.product.picture} 
+              className="w-75 h-75"/>
+              <button onClick={ this.props.handler }
+              className="btn btn-outline-danger btn-sm">Hide</button>
+              <h3 className="text-primary">{this.props.product.power}</h3>
+              <p>{ this.props.product.title }</p>
+              <p className="text-success">{ this.props.product.company }</p>
+            </div>
+          );
+        }
+      }
+    
+      class MyApp extends React.Component {
+
+          constructor(props) {
+            super(props);
+            this.state = {
+              products: [],
+            };
+          }
+
+        takeAPIDataFromDjango = async () => {
+            const productsURL = 'http://127.0.0.1:8001/telemart/api/product/all/';
+            const apiUrl = await fetch(productsURL, {
+                method: "GET", 
+                headers: {"Content-Type": "application/json", "Access-Control-Allow-Origin": "*"}
+                });
+                const data = await apiUrl.json();
+            this.setState({
+              products: data,
+            });
+          }
+
+        getProductCards = () => {
+          return this.state.products.map(
+            (product, idx) => <ProductCard 
+            product={product} 
+            key={idx} 
+            handler={ () => this.hideProductCard(idx) }
+            />
+          );
+        }
+
+        hideProductCard = (idx) => {
+          var copyProducts = this.state.products.slice();
+          copyProducts.splice(idx, 1);
+          this.setState({
+            products: copyProducts,
+          });
+        }
+
+        componentDidMount() {
+          this.takeAPIDataFromDjango();
+        }
+
+        render() {
+          return (
+            <div className="container">
+              <h1 className="text-center text-success">Telemart React</h1>
+              <div className="row">
+                { this.getProductCards() }
+              </div>
+            </div>
+          );
+        }
+      }
+
+      const container = document.getElementById('root');
+      const root = ReactDOM.createRoot(container);
+      root.render(<MyApp />);
+
+    </script>
+    <!--
+      Note: this page is a great way to try React but it's not suitable for production.
+      It slowly compiles JSX with Babel in the browser and uses a large development build of React.
+
+      Read this section for a production-ready setup with JSX:
+      https://reactjs.org/docs/add-react-to-a-website.html#add-jsx-to-a-project
+
+      In a larger project, you can use an integrated toolchain that includes JSX instead:
+      https://reactjs.org/docs/create-a-new-react-app.html
+
+      You can also use React without JSX, in which case you can remove Babel:
+      https://reactjs.org/docs/react-without-jsx.html
+    -->
+  </body>
+</html>

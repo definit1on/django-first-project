@@ -1,0 +1,82 @@
+{% extends 'telemart/base.html' %}
+{% load static %}
+
+{% block title %}
+{{ product.title }} - Telemart
+{% endblock %}
+
+{% block content %}
+
+<h3 class="text-muted">{{ product.title }}</h3>
+
+
+<div class="row my-2 justify-content-between">
+    <div class="col-2"> 
+        <h4 class="text-dark text-start ms-6 mb-2">
+            <img src="{% static 'telemart/img/star.png' %}" width="17">
+        {{ product.power }}/10</h4>
+        {% if user.is_authenticated %}
+            {% if user not in product.fans.all %}
+                <a href="{% url 'telemart:wishlist-add' product.id %}"
+                class="btn btn-outline-success">
+                    + В список желаемого
+                </a>
+            {% else %}
+                <a href="{% url 'telemart:wishlist-rmv' product.id %}" 
+                class="btn btn-outline-success">✓ Убрать из списка</a>
+            {% endif %}
+        {% endif %}
+    </div>
+</div>
+
+<div class="row my-3 justify-content-between">
+    <div class="col-3">
+        <img src="{{ product.picture.url }}" class="img-fluid rounded">
+        <a href="{{ product.company.url }}">
+            <h3 class="text-dark mb-2">{{ product.company }}</h3>
+        </a>
+
+        {% if product.description %}
+        <p class="text-dark">
+            {{ product.description.read.decode }}
+        </p>
+        {% endif %}
+        {% if product.hotline %}
+            <a href="https://hotline.ua/ua/sr/?q={{ product.hotline }}" class="text-success text-decoration-underline ms-5"
+            target="_blank">
+                <img src="{% static 'telemart/img/goto.png' %}" width="13">
+            Смотреть на Hotline</a>
+        {% endif %}
+
+    </div>
+    <div class="col-9">
+        {% if product.trailer %}
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/{{ product.trailer }}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        {% endif %}
+
+        <h3 class="text-dark">Отзывы</h3>
+        {% for comment in product.comments.all %}
+        <p class="text-dark">
+            <img src="{{ comment.author.addon.userpic.url }}" width="35">
+            {{ comment.author }}: {{ comment.text }}
+            <span class="text-secondary">{{ comment.published|timesince }}</span>
+        </p>
+        {% empty %}
+        <p class="text-dark">Оставь первый отзыв</p>
+        {% endfor %}
+
+        {% if user.is_authenticated %}
+            {% if user.is_staff %}
+            <form action="{% url 'telemart:add-comment' product.id %}" 
+            method="post" class="text-dark">
+                {% csrf_token %}
+                {{ comment_form }}
+                <input class="btn btn-outline-success" type="submit" value="Добавить">
+            </form>
+            {% endif %}
+        {% endif %}
+
+    </div>
+</div>
+
+{% endblock %}

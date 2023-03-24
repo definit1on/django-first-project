@@ -1,0 +1,6 @@
+Відеокарта  
+NVIDIA GeForce RTX 3090  
+частота GPU: 1 725 Boost МГц  
+GDDR6X  24 ГБ  
+частота пам'яті: 19500 МГц  
+шина: 384 біт  PCI Express 4.0 x16

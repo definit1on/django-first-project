@@ -1,0 +1,39 @@
+{% extends 'telemart/base.html' %}
+{% load static %}
+
+{% block title %}
+Add content - Telemart
+{% endblock %}
+
+{% block content %}
+
+<h3 class="text-muted">Add content</h3>
+<h5 class="text-danger">(only for admin)</h5>
+
+<div class="row justify-content-between mt-5">
+    <div class="col-5">
+        <h4 class="text-dark">Добавить компанию</h4>
+        <form action="{% url 'telemart:add-new-company' %}" method="post" 
+        class="text-dark" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ company_form.as_p }}
+            {% if user.is_superuser %}
+            <input type="submit" value="Добавить" class="btn btn-success">
+            {% endif %}
+        </form>
+    </div>
+    <div class="col-7">
+        <h4 class="text-dark">Добавить товар</h4>
+        <form action="{% url 'telemart:add-new-product' %}" method="post" 
+        class="text-secondary" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ product_form.as_p }}
+            {% if user.is_superuser %}
+            <input type="submit" value="Добавить" class="btn btn-success">
+            {% endif %}
+        </form>
+        
+    </div>
+</div>
+
+{% endblock %}

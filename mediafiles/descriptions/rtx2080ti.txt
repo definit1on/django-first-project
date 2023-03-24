@@ -1,0 +1,4 @@
+Відеокарта  
+NVIDIA GeForce RTX 2080 Ti  
+GDDR6  11 ГБ  
+шина: 352 біт  PCI Express 3.0 x16

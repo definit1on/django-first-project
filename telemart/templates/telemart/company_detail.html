@@ -1,0 +1,57 @@
+{% extends 'telemart/base.html' %}
+{% load static %}
+
+{% block title %}
+{{ object }} - Telemart
+{% endblock %}
+
+{% block content %}
+
+<h3 class="text-muted">{{ object }}</h3>
+
+
+<div class="row justify-content-between">
+    <div class="col-3">
+        {% if company.official %}
+        <a href="https://{{ company.official }}" class="text-success text-decoration-underline" target="_blank">Visit official page</a>
+        {% endif %}
+        <h4 class="text-muted text-start my-2">
+            <img src="{% static 'telemart/img/star.png' %}" width="17">
+        {{ object.power|floatformat:1 }}/10</h4>
+    </div>
+</div>
+
+<div class="row my-3 justify-content-between">
+    <div class="col-3">
+        <img src="{{ company.icon.url }}" class="img-fluid rounded w-100 h-100">
+    </div>
+    <div class="col-9">
+        {% if company.description %}
+        <p class="text-dark">
+            {{ company.description.read.decode }}
+        </p>
+        {% endif %}
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-3">
+        <h3 class="text-dark">{{ object.name }}'s products</h3>
+
+        {% for product in company.products.all|dictsortreversed:"power" %}
+        <div class="row mt-4">
+                <a href="{{ product.url }}">
+                    <h5 class="text-dark">{{ product.title }}</h5>
+                </a>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="col-6">
+        {% if company.trailer %}
+        <iframe width="1024" height="768" src="https://www.youtube.com/embed/{{ company.trailer }}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        {% endif %}
+    </div>
+</div>
+
+
+{% endblock %}

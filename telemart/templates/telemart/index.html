@@ -1,0 +1,146 @@
+{% extends 'telemart/base.html' %}
+{% load static %}
+
+{% block title %}
+Интернет-магазин Telemart - магазин комплектующих для ПК
+{% endblock %}
+
+{% block content %}
+
+<h3 class="text-dark text-muted">Сейчас популярно</h3>
+
+<div class="row mt-3">
+    {% for product in best_products %}
+    <div class="col-3 text-center">
+        <a href="{{ product.url }}">
+            <img src="{{ product.picture.url }}" class="h-50 w-75 rounded">
+        </a>
+        <h4 class="text-dark text-start ms-5">
+            <img src="{% static 'telemart/img/star.png' %}" width="17">
+        {{ product.power }}</h4>
+        <a href="{{ product.url }}">
+            <h5 class="text-dark text-start ms-5">{{ product.company }}</h5>
+            <h5 class="text-dark text-start ms-5">{{ product.title }}</h5>
+        </a>
+    </div>
+    {% endfor %}
+</div>
+
+<hr>
+
+<a href="{% url 'telemart:company-list' %}">
+    <h3 class="text-dark text-muted">Компании изготовители</h3>
+</a>
+
+<div class="row mt-3">
+    {% for company in companies %}
+    <div class="col-3 text-center">
+        <a href="{{ company.url }}">
+            <img src="{{ company.icon.url }}" class="w-75 h-75 rounded">
+        </a>
+        <a href="{{ company.url }}">
+            <h5 class="text-dark text-start ms-5 mt-3">{{ company.name }}</h5>
+        </a>
+    </div>
+    {% endfor %}
+</div>
+
+<hr>
+
+
+<h3 class="text-dark text-muted">Видеокарты</h3>
+
+<div class="row mt-3">
+    {% for gpu in gpus %}
+    <div class="col-3 text-center">
+        <a href="{{ gpu.url }}">
+            <img src="{{ gpu.picture.url }}" class="w-50 h-50 rounded">
+        </a>
+        <a href="{{ gpu.url }}">
+            <h5 class="text-dark text-start ms-3 mt-2">{{ gpu.company }}</h5>
+            <h5 class="text-dark text-start ms-3 mt-3">{{ gpu.title }}</h5>
+        </a>
+    </div>
+    {% endfor %}
+</div>
+
+<hr>
+
+
+<h3 class="text-dark text-muted">Процессоры</h3>
+
+<div class="row mt-3">
+    {% for cpu in cpus %}
+    <div class="col-3 text-center">
+        <a href="{{ cpu.url }}">
+            <img src="{{ cpu.picture.url }}" class="w-50 h-50 rounded">
+        </a>
+        <a href="{{ cpu.url }}">
+            <h5 class="text-dark text-start ms-3 mt-2">{{ cpu.company }}</h5>
+            <h5 class="text-dark text-start ms-3 mt-3">{{ cpu.title }}</h5>
+        </a>
+    </div>
+    {% endfor %}
+</div>
+
+<hr>
+
+
+<h3 class="text-dark text-muted">Мат. платы</h3>
+
+<div class="row mt-3 my-2">
+    {% for mb in motherboards %}
+    <div class="col-3 text-center">
+        <a href="{{ mb.url }}">
+            <img src="{{ mb.picture.url }}" class="w-50 h-75 rounded">
+        </a>
+        <a href="{{ mb.url }}">
+            <h5 class="text-dark text-start ms-3 mt-2">{{ mb.company }}</h5>
+            <h5 class="text-dark text-start ms-3 mt-3">{{ mb.title }}</h5>
+        </a>
+    </div>
+    {% endfor %}
+</div>
+
+
+<hr class="mb-3">
+
+
+<h3 class="text-dark text-muted">ОЗУ</h3>
+
+<div class="row mt-3 my-2">
+    {% for m in memory %}
+    <div class="col-3 text-center">
+        <a href="{{ m.url }}">
+            <img src="{{ m.picture.url }}" class="w-50 h-75 rounded">
+        </a>
+        <a href="{{ m.url }}">
+            <h5 class="text-dark text-start ms-3 mt-2">{{ m.company }}</h5>
+            <h5 class="text-dark text-start ms-3 mt-3">{{ m.title }}</h5>
+        </a>
+    </div>
+    {% endfor %}
+</div>
+
+<hr class="mt-3">
+
+
+<h3 class="text-dark text-muted my-2">Блоки питания</h3>
+
+<div class="row mt-3 my-2">
+    {% for pu in pus %}
+    <div class="col-3 text-center">
+        <a href="{{ pu.url }}">
+            <img src="{{ pu.picture.url }}" class="w-50 h-75 rounded">
+        </a>
+        <a href="{{ pu.url }}">
+            <h5 class="text-dark text-start ms-3 mt-2">{{ pu.company }}</h5>
+            <h5 class="text-dark text-start ms-3 mt-3">{{ pu.title }}</h5>
+        </a>
+    </div>
+    {% endfor %}
+</div>
+
+
+{% endblock %}
+

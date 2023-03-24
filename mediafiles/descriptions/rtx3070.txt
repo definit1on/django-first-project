@@ -1,0 +1,6 @@
+Відеокарта  
+NVIDIA GeForce RTX 3070 Ti  
+частота GPU: 1830 (Boost) МГц  
+GDDR6X  8 ГБ  
+частота пам'яті: 19000 МГц  
+шина: 256 біт  PCI Express 4.0

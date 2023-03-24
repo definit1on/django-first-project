@@ -1,0 +1,46 @@
+{% extends 'telemart/base.html' %}
+{% load static %}
+
+{% block title %}
+Search by "{{ match }}" - Telemart
+{% endblock %}
+
+{% block content %}
+
+<h2 class="text-secondary"></h2>
+
+<h2 class="text-muted">Поиск по запросу "{{ match }}"</h2>
+
+<h4 class="text-dark">Товары ({{ product_list|length }}):</h4>
+
+{% for prod in product_list %}
+<div class="row my-2">
+    <div class="col-2 my-3">
+        <img src="{{ prod.picture.url }}" class="w-75">
+    </div>
+    <div class="col-4">
+        <a href="{{ prod.url }}">
+            <h4 class="text-dark">{{ prod }}</h4>
+            <p class="text-dark">{{ prod.company }}</p>
+        </a>
+    </div>
+</div>
+{% endfor %}
+
+<h4 class="text-dark">Компании ({{ company_list|length }}):</h4>
+
+{% for c in company_list %}
+<div class="row my-2">
+    <div class="col-2 my-3">
+        <img src="{{ c.icon.url }}" class="img-fluid rounded">
+    </div>
+    <div class="col-4 my-3">
+        <a href="{{ c.url }}">
+            <h4 class="text-dark">{{ c.name }}</h4>
+            <p class="text-dark">Товары: {{ c.products.all|length }}</p>
+        </a>
+    </div>
+</div>
+{% endfor %}
+
+{% endblock %}

@@ -1,0 +1,1 @@
+Відеокарта  NVIDIA GeForce GTX 1050 Ti  частота GPU: 1328 (Boost - 1442) МГц  GDDR5  4 ГБ  частота пам'яті: 7008 МГц  шина: 128 біт  PCI Express 3.0 x16s

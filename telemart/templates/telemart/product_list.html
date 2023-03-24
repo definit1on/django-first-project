@@ -1,0 +1,53 @@
+{% extends 'telemart/base.html' %}
+{% load static %}
+
+{% block title %}
+Все товары - Telemart
+{% endblock %}
+
+{% block content %}
+
+<h3 class="text-muted">Все товары</h3>
+
+
+
+<div class="row">
+    {% for prod in object_list %}
+    <div class="col-3 text-center mt-3">
+        <a href="{{ prod.url }}">
+            <img src="{{ prod.picture.url }}" class="h-50 w-50 rounded">
+        </a>
+        <h5 class="text-secondary text-start ms-5">
+            <img src="{% static 'telemart/img/star.png' %}" width="17">
+        {{ prod.power }}</h5>
+        <a href="{{ prod.url }}">
+            <h5 class="text-dark text-start ms-5">{{ prod.company }}</h5>
+            <h5 class="text-dark text-start ms-5">{{ prod.title }}</h5>
+        </a>
+        {% if prod.hotline %}
+            <a href="https://hotline.ua/ua/sr/?q={{ prod.hotline }}" class="text-dark m-2"
+            target="_blank">
+                <img src="{% static 'telemart/img/goto.png' %}" width="13">
+            Смотреть на Hotline</a>
+        {% endif %}
+    </div>
+    {% endfor %}
+</div>
+
+<div class="row mt-5 justify-content-center ms-5">
+    <div class="col-2 text-dark">
+        {% if page_obj.has_previous %}
+            <a href="?page={{ page_obj.previous_page_number }}" class="text-dark"><img src="{% static 'telemart/img/prev.png' %}" width="15"></a>
+        {% endif %}
+    </div>
+    <div class="col-2 text-dark">
+        <p>{{ page_obj.number }}/{{ page_obj.paginator.num_pages }}</p>
+    </div>
+    <div class="col-2 text-dark">
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}" class="text-dark"><img src="{% static 'telemart/img/next.png' %}" width="15"></a>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}

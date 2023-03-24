@@ -1,0 +1,25 @@
+{% extends 'telemart/base.html' %}
+{% load static %}
+
+{% block title %}
+Компании - Telemart
+{% endblock %}
+
+{% block content %}
+
+<h3 class="text-muted">Все компании</h3>
+
+<div class="row mt-3">
+    {% for company in object_list %}
+    <div class="col-3 text-center">
+        <a href="{{ company.url }}">
+            <img src="{{ company.icon.url }}" class="w-75 h-75 rounded ms-9">
+        </a>
+        <a href="{{ company.url }}">
+            <h5 class="text-muted p-3 mt-2">Товары: {{ company.products.all|length }}</h5>
+        </a>
+    </div>
+    {% endfor %}
+</div>
+
+{% endblock %}

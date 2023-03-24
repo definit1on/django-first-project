@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'telemart/css/custom.css' %}">
+    <link rel="shortcut icon" href="{% static 'telemart/img/icon.png' %}" type="image/x-icon">
+</head>
+<body class="bg-light">
+    <div class="container">
+        <div class="row my-3 justify-content-between">
+            <div class="col-2">
+                <a href="{% url 'telemart:index' %}">
+                    <img src="{% static 'telemart/img/logo.svg' %}" class="w-100 mt-4">
+                </a>
+            </div>
+            <div class="col-6 text-center">
+                <a href="{% url 'telemart:product-list' %}">
+                    <h4 class="text-dark text-muted">Все товары</h4>
+                </a>
+                <hr>
+                <form action="{% url 'telemart:search' %}" method="post" class="pt-1">
+                    {% csrf_token %}
+                    <input type="text" name="match" placeholder="Поиск по всему сайту"
+                    class="form-control">
+                </form>
+            </div>
+            <div class="col-3">
+                <p class="text-dark">
+                    {% if user.is_authenticated %}
+                    <img src="{{ user.addon.userpic.url }}" width="50">
+                    <br>
+                    {{ user.username }}
+                        {% if user.is_staff %}
+                        <a href="#">
+                            <img src="#" width="15">
+                        </a>
+                        {% endif %}
+                    <br>
+                    <a href="#" class="text-success text-decoration-underline">
+                        <img src="#" width="20">Выйти
+                    </a>
+                    {% else %}
+                    <a href="#" class="text-success text-decoration-underline">
+                        <img src="#" width="20">Войти
+                    </a>
+                    {% endif %}
+                </p>
+            </div>
+        </div>
+        {% block content %}{% endblock %}
+    </div>
+</body>
+</html>
