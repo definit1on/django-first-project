@@ -97,7 +97,72 @@ def search(request):
         return HttpResponseRedirect(reverse('telemart:index'))
 
 
+def add_to_wishlist(request, product_id):
+    user = request.user
+    product = Product.objects.get(pk=product_id)
+    user.product_wishlist.add(product)
+    return HttpResponseRedirect(reverse('telemart:product-detail',
+                                kwargs={'slug': product.slug}))
 
+
+def remove_from_wishlist(request, product_id):
+    user = request.user
+    product = Product.objects.get(pk=product_id)
+    user.product_wishlist.remove(product)
+    return HttpResponseRedirect(reverse('telemart:product-detail',
+                                        kwargs={'slug': product.slug}))
+
+
+def add_comment(request, product_id):
+    user = request.user
+    product = Product.objects.get(pk=product_id)
+    form = CommentForm(request.POST)
+    if form.is_valid():
+        text = form.cleaned_data.get('text')
+        new_comment = Comment(author=user, product=product,
+                              text=text)
+        new_comment.save()
+    return HttpResponseRedirect(reverse('telemart:product-detail',
+                                        kwargs={'slug': product.slug}))
+
+
+def config(request):
+    context = {
+        'company_form': CompanyForm(),
+        'product_form': ProductForm(),
+    }
+    return render(request, template_name='telemart/config.html',
+                  context=context)
+
+def add_new_company(request):
+    form = CompanyForm(request.POST)
+    if form.is_valid():
+        new_company = form.save(commit=False)
+        if 'icon' in request.FILES:
+            new_company.portrait = request.FILES['icon']
+        new_company.save()
+    return HttpResponseRedirect(reverse('telemart:company-list'))
+
+
+def add_new_product(request):
+    form = ProductForm(request.POST)
+    if form.is_valid():
+        new_product = form.save(commit=False)
+        if 'picture' in request.FILES:
+            new_product.picture = request.FILES['picture']
+        if 'description' in request.FILES:
+            new_product.description = request.FILES['description']
+        slug = '-'.join(p.lower() for p in new_product.title.split()) \
+               + f'-{new_product.power}'
+        new_product.slug = ''.join(c for c in slug if c.isalpha() or c.isdigit() or c == '-')
+        new_product.save()
+        form.save_m2m()
+    return HttpResponseRedirect(reverse('telemart:product-list'))
+
+
+class ProductListAPIView(generics.ListAPIView):
+    queryset = Product.objects.order_by('-power')
+    serializer_class = MovieSerializer1
 
 
 
